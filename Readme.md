@@ -2,7 +2,7 @@
 
 Toolkit for building shining CLI programs in Node.js using coffeescript.
 
-**This is the coffeescript fork of Ronin.** The original javascript version is [Ronin](https://github.com/vdemedes/ronin). The changes are to make it work with .coffee files instead of .js. I'm actively using this project so I will do my best to keep it up-to-date with the original project.
+**This is the coffeescript fork of [Ronin](https://github.com/vdemedes/ronin).** The changes are to make it work with .coffee files instead of .js. I'm actively using this project so I will do my best to keep it up-to-date with the original project.
 
 I don't use the middleware functionality so I didn't convert that to coffeescript. It uses a named function which we can't really do in coffeescript other than with just plain escaped JS. I'm pretty sure it should work if your middleware files are `.js`. If not feel free to submit a pull request to patch that.
 
@@ -23,6 +23,12 @@ ronin new hello-world
 ```
 
 Ronin will create a hello-world directory (if it does not exists or empty) and put everything that's needed to start developing your CLI tool immediately.
+
+Once you `cd` into the app, you can generate the scaffolding for a new command with:
+
+```
+ronin g new command
+```
 
 ### Initialization
 
