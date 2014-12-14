@@ -27,7 +27,7 @@ Ronin will create a hello-world directory (if it does not exists or empty) and p
 Once you `cd` into the app, you can generate the scaffolding for a new command with:
 
 ```
-ronin g new command
+ronin g command <command-name>
 ```
 
 ### Initialization
