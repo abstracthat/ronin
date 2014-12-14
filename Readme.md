@@ -1,19 +1,15 @@
-# Ronin
+# Ronin (Coffeescript Fork)
 
-Toolkit for building shining CLI programs in Node.js.
+Toolkit for building shining CLI programs in Node.js using coffeescript.
 
-## Features
+**This is the coffeescript fork of Ronin.** The original javascript version is [Ronin](https://github.com/vdemedes/ronin). The changes are to make it work with .coffee files instead of .js. I'm actively using this project so I will do my best to keep it up-to-date with the original project.
 
-- *Forced & clean* organization of program code
-- Command name generation based on folder structure
-- CLI tool to quickly create program skeleton and commands
-- Auto-generated usage and help
-- Small codebase (269 sloc)
+I don't use the middleware functionality so I didn't convert that to coffeescript. It uses a named function which we can't really do in coffeescript other than with just plain escaped JS. I'm pretty sure it should work if your middleware files are `.js`. If not feel free to submit a pull request to patch that.
 
 ## Installation
 
 ```
-npm install ronin --global
+npm install ronin-coffeescript --global
 ```
 
 ## Getting Started
@@ -26,36 +22,32 @@ Execute the following command to generate basic skeleton for your program:
 ronin new hello-world
 ```
 
-Ronin will create a hello-world directory (if it does not exists or empty) and put everything that's needed to start developing your CLI tool immediately:
-
-![Output](http://cl.ly/image/3p1R160V2Z2W/embed)
+Ronin will create a hello-world directory (if it does not exists or empty) and put everything that's needed to start developing your CLI tool immediately.
 
 ### Initialization
 
 Here's how to initialize CLI program using Ronin:
 
-```javascript
-var ronin = require('ronin');
-
-var program = ronin(__dirname); // root path, where commands folder is
-
-program.run();
+```coffeescript
+ronin = require 'ronin'
+program = ronin __dirname
+program.run()
 ```
 
 ### Creating commands
 
-Next, to setup some commends, simply create folders and files.
+Next, to setup some commands, simply create folders and files.
 The structure you create, will be reflected in your program.
 For example, if you create such folders and files:
 
 ```
 commands/
---  apps.js
+--  apps.coffee
 --  apps/
-    -- add.js
-    -- remove.js
+    -- add.coffee
+    -- remove.coffee
 --  keys/
-    -- dump.js
+    -- dump.coffee
 ```
 
 In result, Ronin, will generate these commands for you automatically:
@@ -71,16 +63,13 @@ Each folder is treated like a namespace and each file like a command, where file
 
 To actually create handlers for those commands, in each file, Command should be defined:
 
-```javascript
-var Command = require('ronin').Command;
+```coffeescript
+Command = require('ronin').Command
 
-var AppsAddCommand = module.exports = Command.extend({
-    desc: 'This command adds application',
-    
-    run: function (name) {
+AppsAddCommand = module.exports = Command.extend
+    desc: 'This command adds application'
+    run: (name) ->
         // create an app with name given in arguments
-    }
-});
 ```
 
 To run this command, execute:
@@ -95,26 +84,18 @@ Whatever arguments passed to command after command name, will be passed to .run(
 
 You can specify options and their properties using *options* object.
 
-```javascript
-var AppsDestroyCommand = module.exports = Command.extend({
-    desc: 'This command removes application',
-    
-    options: {
-        name: 'string',
-        force: {
-            type: 'boolean',
+```coffeescript
+AppsDestroyCommand = module.exports = Command.extend
+    desc: 'This command removes application'
+    options:
+        name: 'string'
+        force:
+            type: 'boolean'
             alias: 'f'
-        }
-    },
-    
-    run: function (name, force) {
-        if (!force) {
-            throw new Error('--force option is required to remove application');
-        }
-        
+    run: (name, force) ->
+        unless force
+            throw new Error '--force option is required to remove application'
         // remove app
-    }
-});
 ```
 
 **Note**: Options will be passed to .run() method in the same order they were defined.
@@ -124,14 +105,11 @@ var AppsDestroyCommand = module.exports = Command.extend({
 By default, Ronin generates help for each command and for whole program automatically.
 If you wish to customize the output, override .help() method in your command (program help can not be customized at the moment):
 
-```javascript
-var HelloCommand = Command.extend({
-    help: function () {
-        return 'Usage: ' + this.programName + ' ' + this.name + ' [OPTIONS]';
-    },
-    
+```coffeescript
+HelloCommand = Command.extend
+    help: ->
+        "Usage: #{@programName} #{@name} [OPTIONS]"
     desc: 'Hello world'
-});
 ```
 
 #### Customizing command delimiter
@@ -139,15 +117,14 @@ var HelloCommand = Command.extend({
 By default, Ronin separates sub-commands with a space.
 If you want to change that delimiter, just specify this option when initializing Ronin:
 
-```javascript
-var program = ronin();
+```coffeescript
+program = ronin()
 
-program.set({
-    path: __dirname,
+program.set
+    path: __dirname
     delimiter: ':'
-});
 
-program.run();
+program.run()
 ```
 
 After that, `apps create` command will become `apps:create`.

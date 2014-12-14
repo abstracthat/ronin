@@ -15,7 +15,7 @@ var NewMiddleware = Command.extend({
 	desc: 'Create new middleware',
 
 	run: function (name) {
-	  spawn('yo', ['ronin:middleware', name], {
+	  spawn('yo', ['ronin-coffeescript:middleware', name], {
 		  cwd: process.cwd(),
 		  stdio: 'inherit'
 		});
